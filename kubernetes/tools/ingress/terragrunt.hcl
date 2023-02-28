@@ -9,7 +9,8 @@ terraform {
 dependencies {
   paths = [
     "${get_repo_root()}/kubernetes/cluster",
-    "${get_repo_root()}/network/zone"
+    "${get_repo_root()}/network/zone",
+    "${get_repo_root()}/network/certificate_import"
   ]
 }
 
@@ -18,6 +19,6 @@ include {
 }
 
 inputs = {
-  stack = local.env.locals.stack
+  stack  = local.env.locals.stack
   domain = local.env.locals.domain
 }

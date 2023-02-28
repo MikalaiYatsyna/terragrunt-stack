@@ -22,8 +22,35 @@ on:
 
 jobs:
   manage_stack:
-    name: Create/Destroy stack
+    name: ${{ github.event.inputs.action }} ${{ github.event.inputs.stack }} stack in ${{ github.event.inputs.provider }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@main
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@main
+        with:
+          terraform_wrapper: false
+          cli_config_credentials_token: ${{ secrets.TG_TF_REGISTRY_TOKEN }}
+
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v1.3.0
+        with:
+          terragrunt_version: 0.43.2
+
+      - name: ${{ github.event.inputs.provider }} stack
+        run: terragrunt run-all ${{ github.event.inputs.action }} --terragrunt-non-interactive
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          TG_TF_REGISTRY_TOKEN: ${{ secrets.TG_TF_REGISTRY_TOKEN }}
+          STACK: ${{ github.event.inputs.stack }}
+          PROVIDER: ${{ github.event.inputs.provider }}
+          ROOT_DOMAIN: ${{ vars.DOMAIN }}

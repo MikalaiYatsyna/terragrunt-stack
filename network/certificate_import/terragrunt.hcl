@@ -3,7 +3,7 @@ terraform {
 }
 
 dependency "cloudflare_ca" {
-  config_path = "${get_repo_root()}/network/ca"
+  config_path = "${get_repo_root()}/network/cloudflare_origin_ca"
 }
 
 include {
