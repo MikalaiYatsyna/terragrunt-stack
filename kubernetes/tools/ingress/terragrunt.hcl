@@ -9,8 +9,7 @@ terraform {
 dependencies {
   paths = [
     "${get_repo_root()}/kubernetes/cluster",
-    "${get_repo_root()}/network/zone",
-    "${get_repo_root()}/network/certificate_import"
+    "${get_repo_root()}/network/zone"
   ]
 }
 
