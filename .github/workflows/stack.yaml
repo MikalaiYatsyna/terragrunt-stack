@@ -1,0 +1,29 @@
+name: Manage Terragrunt stack
+
+on:
+  workflow_dispatch:
+    inputs:
+      stack:
+        description: 'Name of stack'
+        required: true
+      action:
+        type: choice
+        description: 'Action type to run'
+        required: true
+        options:
+          - apply
+          - destroy
+      provider:
+        type: choice
+        description: 'Cloud provider'
+        required: true
+        options:
+          - aws
+
+jobs:
+  manage_stack:
+    name: Create/Destroy stack
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
