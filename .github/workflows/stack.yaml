@@ -46,7 +46,7 @@ jobs:
         with:
           terragrunt_version: 0.43.2
 
-      - name: ${{ github.event.inputs.provider }} stack
+      - name: ${{ github.event.inputs.action }} ${{ github.event.inputs.stack }} stack in ${{ github.event.inputs.provider }}
         run: terragrunt run-all ${{ github.event.inputs.action }} --terragrunt-non-interactive
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
