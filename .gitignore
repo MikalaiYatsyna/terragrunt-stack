@@ -1,4 +1,4 @@
-.env
+../.env
 **.lock.hcl
 **.terragrunt-cache
 **.tf
