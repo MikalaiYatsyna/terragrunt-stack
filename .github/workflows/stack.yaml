@@ -47,10 +47,9 @@ jobs:
           terragrunt_version: 0.43.2
 
       - name: ${{ github.event.inputs.action }} ${{ github.event.inputs.stack }} stack in ${{ github.event.inputs.provider }}
-        run: terragrunt run-all ${{ github.event.inputs.action }} --terragrunt-non-interactive
+        run: terragrunt run-all ${{ github.event.inputs.action }} --terragrunt-non-interactive --terragrunt-working-dir ${{ github.event.inputs.provider }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TG_TF_REGISTRY_TOKEN: ${{ secrets.TG_TF_REGISTRY_TOKEN }}
           STACK: ${{ github.event.inputs.stack }}
-          PROVIDER: ${{ github.event.inputs.provider }}
           ROOT_DOMAIN: ${{ vars.DOMAIN }}

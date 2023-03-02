@@ -1,13 +1,13 @@
+include {
+  path = find_in_parent_folders()
+}
+
 terraform {
   source = "."
 }
 
 dependency "cloudflare_ca" {
-  config_path = "${get_repo_root()}/network/cloudflare_origin_ca"
-}
-
-include {
-  path = find_in_parent_folders()
+  config_path = "${get_repo_root()}/aws/network/cloudflare_origin_ca"
 }
 
 generate "cert" {
@@ -29,6 +29,10 @@ generate "resource" {
       resource "aws_acm_certificate" "cert" {
         certificate_body = file("cert.pem")
         private_key      = file("key.pem")
+      }
+
+      output "certificate_arn" {
+        value = aws_acm_certificate.cert.arn
       }
   EOF
 }
