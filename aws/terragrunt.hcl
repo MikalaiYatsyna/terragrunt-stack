@@ -1,9 +1,10 @@
 locals {
-  stack       = get_env("STACK")
-  root_domain = get_env("ROOT_DOMAIN")
-  region      = get_env("AWS_REGION")
-  domain      = "${local.stack}.${local.root_domain}"
-  create_ingress = true
+  stack           = get_env("STACK")
+  root_domain     = get_env("ROOT_DOMAIN")
+  region          = get_env("AWS_REGION")
+  domain          = "${local.stack}.${local.root_domain}"
+  create_ingress  = true
+  consul_app_name = "consul"
 
   kubernetes = {
     cluster = {
@@ -24,12 +25,12 @@ locals {
         version = "0.0.4"
       }
       consul = {
-        source  = "tfr://app.terraform.io/logistic/consul/aws"
-        version = "0.0.3"
+        source  = "app.terraform.io/logistic/consul/aws"
+        version = "0.0.4"
       }
       vault = {
-        source  = "tfr://app.terraform.io/logistic/vault/aws"
-        version = "0.0.3"
+        source  = "app.terraform.io/logistic/vault/aws"
+        version = "0.0.4"
       }
     }
   }
@@ -55,7 +56,7 @@ locals {
 
 remote_state {
   backend = "s3"
-  config  = {
+  config = {
     region         = local.region
     bucket         = "mikalai-yatsyna-tf-state"
     key            = "${local.stack}/${path_relative_to_include()}.tfstate"

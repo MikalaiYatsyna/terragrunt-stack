@@ -1,14 +1,10 @@
-locals {
-  consul_app_name = "consul"
-}
-
 include "root" {
   path   = find_in_parent_folders()
   expose = true
 }
 
 terraform {
-  source = "${include.root.locals.kubernetes.tools.consul.source}//.?version=${include.root.locals.kubernetes.tools.consul.version}"
+  source = "tfr://${include.root.locals.kubernetes.tools.consul.source}//.?version=${include.root.locals.kubernetes.tools.consul.version}"
 }
 
 dependency "zone" {
@@ -29,7 +25,7 @@ dependency "ingress" {
 }
 
 inputs = {
-  app_name          = local.app_name
+  app_name          = include.root.locals.consul_app_name
   stack             = include.root.locals.stack
   domain            = include.root.locals.domain
   cluster_name      = dependency.kubernetes_cluster.outputs.cluster_name

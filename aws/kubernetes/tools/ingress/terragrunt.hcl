@@ -16,8 +16,8 @@ dependency "certificate" {
 }
 
 inputs = {
-  stack           = include.root.locals.stack
-  cluster_name    = dependency.cluster.outputs.cluster_name
-  certificate_arn = dependency.certificate.outputs.certificate_arn
+  stack              = include.root.locals.stack
+  cluster_name       = dependency.cluster.outputs.cluster_name
+  certificate_arn    = dependency.certificate.outputs.certificate_arn
   nginx_ingress_kind = "Deployment"
 }
