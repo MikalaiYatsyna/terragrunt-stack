@@ -16,20 +16,47 @@ dependency "kubernetes_cluster" {
   config_path = "${get_repo_root()}/aws/kubernetes/cluster"
 }
 
-dependency "tooling_namespace" {
-  config_path = "${get_repo_root()}/aws/kubernetes/namespace/tooling"
+dependency "core_namespace" {
+  config_path = "${get_repo_root()}/aws/kubernetes/namespace/core"
 }
 
 dependency "ingress" {
-  config_path = "${get_repo_root()}/aws/kubernetes/tools/ingress"
+  config_path  = "${get_repo_root()}/aws/kubernetes/tools/ingress"
+  skip_outputs = true
+}
+
+dependency "cert_manager_issuer" {
+  config_path = "${get_repo_root()}/aws/kubernetes/tools/cert_manager_issuer"
+}
+
+dependency "vault" {
+  config_path = "${get_repo_root()}/aws/kubernetes/tools/vault"
+}
+
+dependency "vault_secret_backends" {
+  config_path = "${get_repo_root()}/aws/kubernetes/tools/vault_config/secret_backends"
+}
+
+dependency "vault_k8s_auth" {
+  config_path = "${get_repo_root()}/aws/kubernetes/tools/vault_config/k8s-auth"
+}
+
+dependency "external_dns" {
+  config_path  = "${get_repo_root()}/aws/kubernetes/tools/external_dns"
+  skip_outputs = true
 }
 
 inputs = {
-  app_name          = include.root.locals.consul_app_name
-  stack             = include.root.locals.stack
-  domain            = include.root.locals.domain
-  cluster_name      = dependency.kubernetes_cluster.outputs.cluster_name
-  oidc_provider_arn = dependency.kubernetes_cluster.outputs.oidc_provider_arn
-  tooling_namespace = dependency.tooling_namespace.outputs.name
-  lb_arn            = dependency.ingress.outputs.lb_arn
+  stack                    = include.root.locals.stack
+  cluster_name             = dependency.kubernetes_cluster.outputs.cluster_name
+  namespace                = dependency.core_namespace.outputs.name
+  domain                   = include.root.locals.domain
+  oidc_provider_arn        = dependency.kubernetes_cluster.outputs.oidc_provider_arn
+  certificate_issuer       = dependency.cert_manager_issuer.outputs.letsencrypt_issuer
+  vault_address            = dependency.vault.outputs.vault_address
+  vault_token_secret_id    = dependency.vault.outputs.vault_token_secret_id
+  vault_k8s_path           = dependency.vault_k8s_auth.outputs.backend_path
+  vault_server_cert_secret = dependency.vault.outputs.vault_server_cert_secret_name
+  pki_backend              = dependency.vault_secret_backends.outputs.backend["pki"]
+  kv_backend               = dependency.vault_secret_backends.outputs.backend["kv-v2"]
 }

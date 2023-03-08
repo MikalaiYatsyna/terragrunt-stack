@@ -12,11 +12,13 @@ dependency "vpc" {
 }
 
 inputs = {
-  stack              = include.root.locals.stack
-  vpc_id             = dependency.vpc.outputs.vpc_id
-  public_subnet_ids  = dependency.vpc.outputs.public_subnet_ids
-  private_subnet_ids = dependency.vpc.outputs.private_subnet_ids
-  intra_subnet_ids   = dependency.vpc.outputs.intra_subnet_ids
-  instance_type      = "t3.micro"
-  nodegroup_max_size = 20
+  stack                  = include.root.locals.stack
+  vpc_id                 = dependency.vpc.outputs.vpc_id
+  public_subnet_ids      = toset(dependency.vpc.outputs.public_subnet_ids)
+  private_subnet_ids     = dependency.vpc.outputs.private_subnet_ids
+  intra_subnet_ids       = dependency.vpc.outputs.intra_subnet_ids
+  instance_type          = "t3.small"
+  nodegroup_max_size     = 20
+  nodegroup_min_size     = 3
+  nodegroup_desired_size = 5
 }

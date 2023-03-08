@@ -21,28 +21,30 @@ dependency "kubernetes_cluster" {
   config_path = "${get_repo_root()}/aws/kubernetes/cluster"
 }
 
-dependency "tooling_namespace" {
-  config_path = "${get_repo_root()}/aws/kubernetes/namespace/tooling"
+dependency "core_namespace" {
+  config_path = "${get_repo_root()}/aws/kubernetes/namespace/core"
 }
 
 dependency "ingress" {
-  config_path = "${get_repo_root()}/aws/kubernetes/tools/ingress"
-}
-
-dependency "consul" {
-  config_path  = "${get_repo_root()}/aws/kubernetes/tools/consul"
+  config_path  = "${get_repo_root()}/aws/kubernetes/tools/ingress"
   skip_outputs = true
 }
 
+dependency "cert_manager_issuer" {
+  config_path = "${get_repo_root()}/aws/kubernetes/tools/cert_manager_issuer"
+}
+
+dependency "external_dns" {
+  config_path  = "${get_repo_root()}/aws/kubernetes/tools/external_dns"
+  skip_outputs = true
+}
 
 inputs = {
-  stack             = include.root.locals.stack
-  app_name          = local.vault_app_name
-  consul_app_name   = include.root.locals.consul_app_name
-  stack             = include.root.locals.stack
-  domain            = include.root.locals.domain
-  cluster_name      = dependency.kubernetes_cluster.outputs.cluster_name
-  oidc_provider_arn = dependency.kubernetes_cluster.outputs.oidc_provider_arn
-  tooling_namespace = dependency.tooling_namespace.outputs.name
-  lb_arn            = dependency.ingress.outputs.lb_arn
+  stack              = include.root.locals.stack
+  cluster_name       = dependency.kubernetes_cluster.outputs.cluster_name
+  namespace          = dependency.core_namespace.outputs.name
+  domain             = include.root.locals.domain
+  oidc_provider_arn  = dependency.kubernetes_cluster.outputs.oidc_provider_arn
+  vault_init_image   = "${include.root.locals.ecr_url}/vault-init:1.0.3"
+  certificate_issuer = dependency.cert_manager_issuer.outputs.letsencrypt_issuer
 }
