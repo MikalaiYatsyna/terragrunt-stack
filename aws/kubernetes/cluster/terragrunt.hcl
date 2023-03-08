@@ -14,7 +14,7 @@ dependency "vpc" {
 inputs = {
   stack              = include.root.locals.stack
   vpc_id             = dependency.vpc.outputs.vpc_id
-  public_subnet_ids  = dependency.vpc.outputs.public_subnet_ids
+  public_subnet_ids  = toset(dependency.vpc.outputs.public_subnet_ids)
   private_subnet_ids = dependency.vpc.outputs.private_subnet_ids
   intra_subnet_ids   = dependency.vpc.outputs.intra_subnet_ids
   instance_type      = "t3.micro"
