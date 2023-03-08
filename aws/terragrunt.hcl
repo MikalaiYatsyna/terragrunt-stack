@@ -2,6 +2,7 @@ locals {
   stack           = get_env("STACK")
   root_domain     = get_env("ROOT_DOMAIN")
   region          = get_env("AWS_REGION")
+  ecr_url         = get_env("ECR_URL")
   domain          = "${local.stack}.${local.root_domain}"
   create_ingress  = true
   consul_app_name = "consul"
@@ -9,7 +10,7 @@ locals {
   kubernetes = {
     cluster = {
       source  = "app.terraform.io/logistic/eks/aws"
-      version = "0.0.5"
+      version = "0.0.7"
     }
     namespace = {
       source  = "app.terraform.io/logistic/eks-ns/aws"
@@ -17,12 +18,12 @@ locals {
     }
     tools = {
       autoscaler = {
-        source  = "/lablabs/eks-cluster-autoscaler/aws"
-        version = "2.0.0"
+        source  = "app.terraform.io/logistic/eks-autoscaler/aws"
+        version = "0.0.1"
       }
       ingress = {
         source  = "app.terraform.io/logistic/eks-ingress/aws"
-        version = "0.0.4"
+        version = "0.0.6"
       }
       consul = {
         source  = "app.terraform.io/logistic/consul/aws"

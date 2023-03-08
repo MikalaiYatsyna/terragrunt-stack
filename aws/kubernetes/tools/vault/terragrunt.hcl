@@ -29,20 +29,12 @@ dependency "ingress" {
   config_path = "${get_repo_root()}/aws/kubernetes/tools/ingress"
 }
 
-dependency "consul" {
-  config_path  = "${get_repo_root()}/aws/kubernetes/tools/consul"
-  skip_outputs = true
-}
-
-
 inputs = {
   stack             = include.root.locals.stack
-  app_name          = local.vault_app_name
-  consul_app_name   = include.root.locals.consul_app_name
-  stack             = include.root.locals.stack
-  domain            = include.root.locals.domain
   cluster_name      = dependency.kubernetes_cluster.outputs.cluster_name
+  namespace = dependency.tooling_namespace.outputs.name
+  domain            = include.root.locals.domain
+  lb_url            = dependency.ingress.outputs.lb_dns_name
   oidc_provider_arn = dependency.kubernetes_cluster.outputs.oidc_provider_arn
-  tooling_namespace = dependency.tooling_namespace.outputs.name
-  lb_arn            = dependency.ingress.outputs.lb_arn
+  vault_init_image =  "${include.root.locals.ecr_url}/vault-init:1.0.0"
 }

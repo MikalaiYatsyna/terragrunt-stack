@@ -11,13 +11,14 @@ dependency "cluster" {
   config_path = "${get_repo_root()}/aws/kubernetes/cluster"
 }
 
-dependency "certificate" {
-  config_path = "${get_repo_root()}/aws/network/certificate_import"
+dependency "tooling_namespace" {
+  config_path = "${get_repo_root()}/aws/kubernetes/namespace/tooling"
 }
 
 inputs = {
   stack              = include.root.locals.stack
   cluster_name       = dependency.cluster.outputs.cluster_name
-  certificate_arn    = dependency.certificate.outputs.certificate_arn
+  namespace          = dependency.tooling_namespace.outputs.name
+  oidc_provider_arn  = dependency.cluster.outputs.oidc_provider_arn
   nginx_ingress_kind = "Deployment"
 }
