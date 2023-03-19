@@ -18,5 +18,5 @@ include "root" {
 
 inputs = {
   cluster_name   = dependency.cluster.outputs.cluster_name
-  namespace_name = "tooling"
+  namespace_name = "core"
 }
