@@ -53,3 +53,5 @@ jobs:
           TG_TF_REGISTRY_TOKEN: ${{ secrets.TG_TF_REGISTRY_TOKEN }}
           STACK: ${{ github.event.inputs.stack }}
           ROOT_DOMAIN: ${{ vars.DOMAIN }}
+          ECR_URL: ${{ secrets.ECR_URL }}
+          EMAIL: ${{ secrets.EMAIL }}
