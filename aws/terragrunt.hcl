@@ -1,10 +1,10 @@
 locals {
-  stack           = get_env("STACK")
-  root_domain     = get_env("ROOT_DOMAIN")
-  region          = get_env("AWS_REGION")
-  email           = get_env("EMAIL")
-  core_region     = get_env("CORE_AWS_REGION")
-  domain          = "${local.stack}.${local.root_domain}"
+  stack       = get_env("STACK")
+  root_domain = get_env("ROOT_DOMAIN")
+  region      = get_env("AWS_REGION")
+  email       = get_env("EMAIL")
+  core_region = get_env("CORE_AWS_REGION")
+  domain      = "${local.stack}.${local.root_domain}"
 
   kubernetes = {
     cluster = {
@@ -49,10 +49,10 @@ locals {
     }
   }
   github = {
-      gitops_repo = {
-          source  = "app.terraform.io/logistic/module/gitops-repo/github"
-          version = "0.0.1"
-      }
+    gitops_repo = {
+      source  = "app.terraform.io/logistic/module/gitops-repo/github"
+      version = "0.0.1"
+    }
   }
 }
 
