@@ -55,3 +55,4 @@ jobs:
           ROOT_DOMAIN: ${{ vars.DOMAIN }}
           ECR_URL: ${{ secrets.ECR_URL }}
           EMAIL: ${{ secrets.EMAIL }}
+          CORE_AWS_REGION: ${{ secrets.CORE_AWS_REGION }}
