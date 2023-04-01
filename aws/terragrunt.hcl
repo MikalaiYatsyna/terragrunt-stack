@@ -48,6 +48,12 @@ locals {
       version = "0.0.2"
     }
   }
+  github = {
+      gitops_repo = {
+          source  = "app.terraform.io/logistic/module/gitops-repo/github"
+          version = "0.0.1"
+      }
+  }
 }
 
 remote_state {
