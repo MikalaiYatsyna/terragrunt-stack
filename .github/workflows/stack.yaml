@@ -56,3 +56,5 @@ jobs:
           ECR_URL: ${{ secrets.ECR_URL }}
           EMAIL: ${{ secrets.EMAIL }}
           CORE_AWS_REGION: ${{ secrets.CORE_AWS_REGION }}
+          GITHUB_TOKEN:  ${{ secrets.TF_GITHUB_TOKEN }}
+          CORE_AWS_REGION: ${{ secrets.CORE_AWS_REGION }}
