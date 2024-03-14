@@ -42,7 +42,7 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TG_TF_REGISTRY_TOKEN }}
 
       - name: Setup Terragrunt
-        uses: autero1/action-terragrunt@v1.3.0
+        uses: autero1/action-terragrunt@v1.3.2
         with:
           terragrunt_version: 0.43.2
 
